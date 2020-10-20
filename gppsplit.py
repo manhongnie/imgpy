@@ -26,8 +26,8 @@ def zhaolujing(path):
 
 def spimg(path, aimg, bimg):
     #ap = []
-    litww = 280
-    lithh = 280
+    litww = 200
+    lithh = 200
     ww = 200
     hh = 200
     for ik in range(len(aimg)):
@@ -43,7 +43,7 @@ def spimg(path, aimg, bimg):
         savepath = os.path.join(path, bimg[ik])
         for i, countour in enumerate(contours):
             x, y, w, h = cv2.boundingRect(countour)
-            if w/h > 0.5 and w/h < 1.5 and w > litww and h > lithh and w < 480 and h < 480:
+            if w/h > 0.5 and w/h < 1.5 and w > litww and h > lithh and w < 520 and h < 520:
                 savefile = savepath + "/" + str(i) + ".bmp"
                 #cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2, 8)
                 saveimg = img[int(y): int(y + h), int(x): int(x + w)]
@@ -77,23 +77,42 @@ def copyfile(srcpath, dstpath):
             #shutil.copyfile(os.path.join(srcpath, file), os.path.join(dstpath, file))
             srcfile = os.path.join(srcpath, file)
             img = cv2.imread(srcfile)
-            dst = cv2.GaussianBlur(img, (3, 3), 0)
-            gray = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
+            b, g, r = cv2.split(img)
+            gray = cv2.subtract(r, g)
+            #dst = cv2.GaussianBlur(img, (3, 3), 0)
+            #gray = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
             ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY)
-            contours, hiera = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            #cv2.imshow("111", binary)
+            #cv2.waitKey(0)
+            contours, hiera = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
             for i, countour in enumerate(contours):
                 x, y, w, h = cv2.boundingRect(countour)
-                if w / h > 0.5 and w / h < 1.5 and w > 320 and h > 320 and w < 380 and h < 380:
-                    saveimg = img[int(y): int(y + h), int(x): int(x + w)]
+                area = cv2.contourArea(countour)
+                if area > (binary.shape[0] * binary.shape[1]) / 5:
+                    print("kai shi cai tu !")
+                    saveimg = img[int(y - 20): int(y + h + 20), int(x - 20): int(x + w + 20)]
                     cv2.imwrite(os.path.join(dstpath, file), saveimg)
+
+def shantu(dstpath):
+    fileNames = os.listdir(dstpath)
+    for file in fileNames:
+        if os.path.splitext(file)[1] == '.bmp':
+            dstfile = os.path.join(dstpath, file)
+            try:
+                img = cv2.imread(dstfile)
+                if img.shape[0] < 300 or img.shape[1] < 300:
+                    os.remove(dstfile)
+            except:
+                os.remove(dstfile)
 if __name__ == '__main__':
-    path = "/home/nie/nmh/jinkeimg1019/1014xie"
+    path = "D:/jinkeimg/1014xie"
     #print("裁剪文件夹！")
     #src_root = input()
     #aimg = zhaotu(path)
     #bimg = zhaolujing(path)
     #spimg(path, aimg, bimg)
-    srcpath = "/home/nie/nmh/jinkeimg1019/1014xie/1"
-    dstpath = "/home/nie/nmh/jinkeimg1019/1014xie/timg"
-    modFile(srcpath)
-    copyfile(srcpath, dstpath)
+    srcpath = "D:/jinkeimg/1014xie/10"
+    dstpath = "D:/jinkeimg/1014xie/timg"
+    #modFile(srcpath)
+    #copyfile(srcpath, dstpath)
+    shantu(dstpath)
