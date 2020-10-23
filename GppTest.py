@@ -11,7 +11,7 @@ def huiduhua(filepath,w,h):
             img = cv2.imread(os.path.join(filepath, file))
             imgsize = cv2.resize(img, (w, h))
             (b, g, r) = cv2.split(imgsize)
-            cv2.imwrite(os.path.join(filepath, file), g)
+            cv2.imwrite(os.path.join(filepath, file), imgsize)
 
 def modFile(filepath):
     # 获取当前路径下的文件名，返回List
@@ -39,11 +39,11 @@ def copyfile(srcpath, dstpath):
         if os.path.splitext(file)[1] == '.bmp':
             shutil.copyfile(os.path.join(srcpath, file), os.path.join(dstpath, file))
 if __name__ == "__main__":
-    filepath = "/home/nie/nmh/GppTest/ok"
+    filepath = "D:/jinkeloc/jklabel"
     dstpath = "/home/nie/nmh/GppTest/Testimg"
-    w = 440
-    h = 450
-    #huiduhua(filepath,w,h)
-    modFile(filepath)
+    w = 330
+    h = 350
+    huiduhua(filepath,w,h)
+    #modFile(filepath)
     #copyfile(filepath, dstpath)
 

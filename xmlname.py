@@ -2,7 +2,7 @@
 import xml.dom.minidom
 import os,sys
  
-rootdir = '/home/nie/nmh/AABB/xml'#存有xml的文件夹路径
+rootdir = 'D:/jinkeloc/xml'#存有xml的文件夹路径
 list = os.listdir(rootdir) #列出文件夹下所有的目录与文件
 ## 空列表
 classes_list = []
