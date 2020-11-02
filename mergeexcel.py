@@ -61,13 +61,14 @@ def mergeend(file):
     counts = []
 
     xm = []
-    first_pos = 0
+
     data = pd.DataFrame(pd.read_excel(file))
     dataf = pd.read_excel(file)
     print(dataf.columns)
     #print(dataf['项目名称'])
     gx.append(data['公司名称'].values)
-    #xm.append(dataf['项目名称'].values)
+    xm.append(data['项目名称'].values)
+    for
     #mm = list(set(gx))
     #print(len(gx))
     for c in range(len(gx[0])):
@@ -76,19 +77,20 @@ def mergeend(file):
         gxs.append(gx[0][c])
     mm = list(set(gxs))
     for k in range(len(mm)):
+        first_pos = 0
         for i in range(gxs.count(mm[k])):
             gs = []
-            if int(gxs.count(mm[k])) > 1:
-                print(gxs.count(mm[k]))
-                new_list = gxs[first_pos:]
-                next_pos = new_list.index(mm[k]) + 1
-                #print("pos : ", first_pos + new_list.index(mm[k]))
-                gs.append(first_pos + new_list.index(mm[k]))
-                first_pos += next_pos
-            else:
-                gs.append(int(1))
+            #if int(gxs.count(mm[0])) > 1:
+                #print(gxs.count(mm[0]))
+            new_list = gxs[first_pos:]
+            next_pos = new_list.index(mm[k]) + 1
+            print("pos : ", first_pos + new_list.index(mm[k]))
+            gs.append(first_pos + new_list.index(mm[k]))
+            first_pos += next_pos
+
         counts.append(gs)
-    print(counts[0])
+
+    #print(len(counts))
     #print(gxs.index(mm[0]))
     #print(sum(counts))
             #dataf.loc(mm[k])
